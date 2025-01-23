@@ -386,7 +386,9 @@ const convertArg = (spel, conv, config, meta, parentSpel) => {
       [".include"]: "multiselect_include",
       [".string"]: "scontains",
       //[".containsAll"]: "multiselect_contains",
-      ["CollectionUtils.containsAny()"]: "multiselect_contains"
+      ["CollectionUtils.containsAny()"]: "multiselect_contains",
+      ["collect.contain()"]: "collect_contain",
+      ["collect.notContain()"]: "collect_not_contain",
     };
 
     const convertedArgs = args.map(v => convertArg(v, conv, config, meta, {

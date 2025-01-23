@@ -415,6 +415,54 @@ const operators = {
     jsonLogic: "!=",
     elasticSearchQueryType: "exists",
   },
+  collect_contain: {
+    label: "Collect Contains",
+    labelForFormat: "COLLECT CONTAINS",
+    formatOp: function formatOp(field, op, values, valueSrc, valueType, opDef, operatorOptions, isForDisplay) {
+      if (valueSrc == "value") return "".concat(field, " CONTAINS [").concat(values.join(", "), "]"); else return "".concat(field, " CONTAINS ").concat(values);
+    },
+    reversedOp: "collect_not_contain",
+    jsonLogic2: "some-in",
+    jsonLogic: function jsonLogic(field, op, vals) {
+      return {
+        "some": [field, {
+          "in": [{
+            "var": ""
+          }, vals]
+        }]
+      };
+    },
+    //spelOp: ".containsAll",
+    spelOp: "collect.contain()",
+    elasticSearchQueryType: "term",
+    mongoFormatOp: mongoFormatOp1.bind(null, "$in", function (v) {
+      return v;
+    }, false)
+  },
+  collect_not_contain: {
+    label: "Collect Not Contain",
+    labelForFormat: "COLLECT NOT CONTAINS",
+    formatOp: function formatOp(field, op, values, valueSrc, valueType, opDef, operatorOptions, isForDisplay) {
+      if (valueSrc == "value") return "".concat(field, " CONTAINS [").concat(values.join(", "), "]"); else return "".concat(field, " CONTAINS ").concat(values);
+    },
+    reversedOp: "collect_contain",
+    jsonLogic2: "some-in",
+    jsonLogic: function jsonLogic(field, op, vals) {
+      return {
+        "some": [field, {
+          "in": [{
+            "var": ""
+          }, vals]
+        }]
+      };
+    },
+    //spelOp: ".containsAll",
+    spelOp: "collect.notContain()",
+    elasticSearchQueryType: "term",
+    mongoFormatOp: mongoFormatOp1.bind(null, "$in", function (v) {
+      return v;
+    }, false)
+  },
   select_equals: {
     label: "==",
     labelForFormat: "==",
