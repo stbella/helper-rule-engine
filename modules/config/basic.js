@@ -392,7 +392,7 @@ const operators = {
       return isForDisplay ? `${field} IS NULL` : `!${field}`;
     },
     spelFormatOp: (field, op, values, valueSrc, valueTypes, opDef, operatorOptions, fieldDef) => {
-      return `${field} == null`;
+      return `${field} == nil`;
     },
     // check if value is null OR not exists
     mongoFormatOp: mongoFormatOp1.bind(null, "$eq", v => null, false),
@@ -408,7 +408,7 @@ const operators = {
       return isForDisplay ? `${field} IS NOT NULL` : `!!${field}`;
     },
     spelFormatOp: (field, op, values, valueSrc, valueTypes, opDef, operatorOptions, fieldDef) => {
-      return `${field} != null`;
+      return `${field} != nil`;
     },
     // check if value exists and is not null
     mongoFormatOp: mongoFormatOp1.bind(null, "$ne", v => null, false),
