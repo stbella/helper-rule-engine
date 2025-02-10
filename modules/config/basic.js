@@ -382,6 +382,39 @@ const operators = {
     jsonLogic: "!!",
     elasticSearchQueryType: "exists",
   },
+  is_nil: {
+    label: "Is nil",
+    labelForFormat: "IS NIL",
+    sqlOp: "IS NIL",
+    cardinality: 0,
+    reversedOp: "is_not_nil",
+    formatOp: (field, op, value, valueSrc, valueType, opDef, operatorOptions, isForDisplay) => {
+      return isForDisplay ? `${field} IS NIL` : `!${field}`;
+    },
+    spelFormatOp: (field, op, values, valueSrc, valueTypes, opDef, operatorOptions, fieldDef) => {
+      return `${field} == nil`;
+    },
+    // check if value is null OR not exists
+    mongoFormatOp: mongoFormatOp1.bind(null, "$eq", v => null, false),
+    jsonLogic: "==",
+  },
+  is_not_nil: {
+    label: "Is not nil",
+    labelForFormat: "IS NOT NIL",
+    sqlOp: "IS NOT NIL",
+    cardinality: 0,
+    reversedOp: "is_nil",
+    formatOp: (field, op, value, valueSrc, valueType, opDef, operatorOptions, isForDisplay) => {
+      return isForDisplay ? `${field} IS NOT NULL` : `!!${field}`;
+    },
+    spelFormatOp: (field, op, values, valueSrc, valueTypes, opDef, operatorOptions, fieldDef) => {
+      return `${field} != nil`;
+    },
+    // check if value exists and is not null
+    mongoFormatOp: mongoFormatOp1.bind(null, "$ne", v => null, false),
+    jsonLogic: "!=",
+    elasticSearchQueryType: "exists",
+  },
   is_null: {
     label: "Is null",
     labelForFormat: "IS NULL",
@@ -392,7 +425,7 @@ const operators = {
       return isForDisplay ? `${field} IS NULL` : `!${field}`;
     },
     spelFormatOp: (field, op, values, valueSrc, valueTypes, opDef, operatorOptions, fieldDef) => {
-      return `${field} == nil`;
+      return `${field} == null`;
     },
     // check if value is null OR not exists
     mongoFormatOp: mongoFormatOp1.bind(null, "$eq", v => null, false),
@@ -408,7 +441,7 @@ const operators = {
       return isForDisplay ? `${field} IS NOT NULL` : `!!${field}`;
     },
     spelFormatOp: (field, op, values, valueSrc, valueTypes, opDef, operatorOptions, fieldDef) => {
-      return `${field} != nil`;
+      return `${field} != null`;
     },
     // check if value exists and is not null
     mongoFormatOp: mongoFormatOp1.bind(null, "$ne", v => null, false),
@@ -416,8 +449,8 @@ const operators = {
     elasticSearchQueryType: "exists",
   },
   collect_contain: {
-    label: "Collect Contains",
-    labelForFormat: "COLLECT CONTAINS",
+    label: "Collect Contain",
+    labelForFormat: "COLLECT CONTAIN",
     formatOp: function formatOp(field, op, values, valueSrc, valueType, opDef, operatorOptions, isForDisplay) {
       if (valueSrc == "value") return "".concat(field, " CONTAINS [").concat(values.join(", "), "]"); else return "".concat(field, " CONTAINS ").concat(values);
     },
@@ -441,7 +474,7 @@ const operators = {
   },
   collect_not_contain: {
     label: "Collect Not Contain",
-    labelForFormat: "COLLECT NOT CONTAINS",
+    labelForFormat: "COLLECT NOT CONTAIN",
     formatOp: function formatOp(field, op, values, valueSrc, valueType, opDef, operatorOptions, isForDisplay) {
       if (valueSrc == "value") return "".concat(field, " CONTAINS [").concat(values.join(", "), "]"); else return "".concat(field, " CONTAINS ").concat(values);
     },

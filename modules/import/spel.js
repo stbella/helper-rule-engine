@@ -522,6 +522,22 @@ const buildRule = (config, meta, field, opKey, convertedArgs) => {
   const widgetConfig = config.widgets[widget || fieldConfig.mainWidget];
   const asyncListValuesArr = convertedArgs.map(v => v.asyncListValues).filter(v => v != undefined);
   const asyncListValues = asyncListValuesArr.length ? asyncListValuesArr[0] : undefined;
+
+  const value = convertedArgs.map(function (v) {return v.value});
+
+  if (opKey === 'select_equals' && value && value[0] === null) {
+    opKey = 'is_null';
+  }
+  if (opKey === 'select_not_equals' && value && value[0] === null) {
+    opKey = 'is_not_null';
+  }
+
+  if (opKey === 'select_equals' && value && value[0] === 'nil') {
+    opKey = 'is_nil';
+  }
+  if (opKey === 'select_not_equals' && value && value[0] === 'nil') {
+    opKey = 'is_not_nil';
+  }
   let res = {
     type: "rule",
     id: uuid(),
@@ -631,7 +647,11 @@ const convertToTree = (spel, conv, config, meta, parentSpel = null) => {
       opKey = "is_null";
     } else if (op == "ne" && spel.children[1].type == "null") {
       opKey = "is_not_null";
-    } else if (op == "le" && spel.children[1].type == "string" && spel.children[1].val == "") {
+    } if (op == "eq" && spel.children[1].type == "nil") {
+      opKey = "is_nil";
+    } else if (op == "ne" && spel.children[1].type == "nil") {
+      opKey = "is_not_nil";
+    }else if (op == "le" && spel.children[1].type == "string" && spel.children[1].val == "") {
       opKey = "is_empty";
       opKeys = ["is_empty"];
     } else if (op == "gt" && spel.children[1].type == "string" && spel.children[1].val == "") {

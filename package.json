@@ -1,6 +1,6 @@
 {
   "name": "@bestjarvan/helper-rule-engine",
-  "version": "1.0.11",
+  "version": "1.0.13",
   "description": "feat:  新增contain规则，修改null规则",
   "author": "JiangYahui <j532547613@gmail.com>",
   "main": "lib",
