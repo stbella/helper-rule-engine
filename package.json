@@ -1,6 +1,6 @@
 {
   "name": "@bestjarvan/helper-rule-engine",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "feat: 修复not between问题",
   "author": "JiangYahui <j532547613@gmail.com>",
   "main": "lib",
