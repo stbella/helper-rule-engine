@@ -633,7 +633,8 @@ const convertToTree = (spel, conv, config, meta, parentSpel = null) => {
             left,
             from,
             to
-          ]
+          ],
+          not: isBetweenRev,
         };
         return convertToTree(oneSpel, conv, config, meta, parentSpel);
       }
